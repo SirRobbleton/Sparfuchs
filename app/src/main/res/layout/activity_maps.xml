@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:background="?android:attr/colorPressedHighlight">
+        android:background="?android:attr/colorMultiSelectHighlight">
 
         <ImageButton
             android:layout_width="wrap_content"
