@@ -2,11 +2,15 @@ package de.sparfuchs;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,7 +27,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import static de.sparfuchs.R.*;
+import static de.sparfuchs.R.color;
+import static de.sparfuchs.R.id;
+import static de.sparfuchs.R.layout;
 
 
 public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
@@ -34,6 +40,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     private GoogleApiClient mGoogleApiClient;
     private LatLng myLocation;
     private Marker locationMarker;
+    ImageButton mapButton, barButton, storeButton;
 
     float zoomLevel = 17;
 
@@ -42,16 +49,50 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_maps);
 
+        barButton = (ImageButton) findViewById(R.id.barButton);
+        mapButton = (ImageButton) findViewById(R.id.mapButton);
+        storeButton = (ImageButton) findViewById(id.storeButton);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(id.map);
         mapFragment.getMapAsync(this);
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                ft.add(id.main_fragment, mapFragment);
+                ft.commit();
+            }
+        });
+
+        storeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                CouponFragment cf = new CouponFragment();
+
+                ft.add(id.main_fragment, cf);
+                ft.commit();
+            }
+        });
+
+
+        // mapButton.setOnClickListener(buttonOnClickListener);
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(getColor(color.orange_dark));
     }
+
+
 
     /*
     @Override
