@@ -1,12 +1,12 @@
 package de.sparfuchs;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,7 +32,7 @@ import static de.sparfuchs.R.id;
 import static de.sparfuchs.R.layout;
 
 
-public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
     private GoogleMap mMap;
     private MapFragment mapFragment;
@@ -65,7 +65,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
 
-                ft.add(id.main_fragment, mapFragment);
+                ft.replace(id.map, mapFragment);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -78,7 +79,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 FragmentTransaction ft = fm.beginTransaction();
                 CouponFragment cf = new CouponFragment();
 
-                ft.add(id.main_fragment, cf);
+                ft.replace(id.map, cf);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
